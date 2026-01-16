@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Results - CanopyAI{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 mb-1">Survey Results</h1>
+        <p class="text-muted mb-0">Questions ranked by net score (upvotes - downvotes)</p>
+    </div>
+    <a href="{{ url_for('export') }}" class="btn btn-success">
+        <i class="bi bi-download me-1"></i>Export CSV
+    </a>
+</div>
+
+<!-- Category Filter -->
+<div class="mb-4">
+    <div class="btn-group" role="group">
+        <a href="{{ url_for('results', category='all') }}"
+           class="btn btn-outline-primary {% if current_filter == 'all' %}active{% endif %}">
+            All
+        </a>
+        <a href="{{ url_for('results', category='marketing') }}"
+           class="btn btn-outline-primary {% if current_filter == 'marketing' %}active{% endif %}">
+            Marketing
+        </a>
+        <a href="{{ url_for('results', category='loans') }}"
+           class="btn btn-outline-primary {% if current_filter == 'loans' %}active{% endif %}">
+            Loans
+        </a>
+        <a href="{{ url_for('results', category='live_transactions') }}"
+           class="btn btn-outline-primary {% if current_filter == 'live_transactions' %}active{% endif %}">
+            Live Transactions
+        </a>
+        <a href="{{ url_for('results', category='user_suggested') }}"
+           class="btn btn-outline-primary {% if current_filter == 'user_suggested' %}active{% endif %}">
+            User Suggested
+        </a>
+    </div>
+</div>
+
+<!-- Results Table -->
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 60px;">Rank</th>
+                    <th style="width: 100px;">Score</th>
+                    <th>Question</th>
+                    <th style="width: 150px;">Category</th>
+                    <th style="width: 150px;">Use Case</th>
+                    <th style="width: 120px;">Votes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in questions %}
+                <tr>
+                    <td>
+                        <span class="badge {% if loop.index <= 3 %}bg-success{% elif loop.index <= 10 %}bg-primary{% else %}bg-secondary{% endif %}">
+                            #{{ loop.index }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="fw-bold {% if item.net_score > 0 %}text-success{% elif item.net_score < 0 %}text-danger{% endif %}">
+                            {% if item.net_score > 0 %}+{% endif %}{{ item.net_score }}
+                        </span>
+                    </td>
+                    <td>
+                        <strong>"{{ item.question.question_text }}"</strong>
+                        {% if item.question.follow_up_example %}
+                        <br><small class="text-muted">Follow-up: "{{ item.question.follow_up_example }}"</small>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="badge bg-light text-dark">
+                            {{ item.question.category | replace('_', ' ') | title }}
+                        </span>
+                        {% if item.question.is_user_suggested %}
+                        <span class="badge bg-info">Suggested</span>
+                        {% endif %}
+                    </td>
+                    <td><small>{{ item.question.use_case or '-' }}</small></td>
+                    <td>
+                        <span class="text-success"><i class="bi bi-arrow-up"></i>{{ item.upvotes }}</span>
+                        <span class="mx-1">/</span>
+                        <span class="text-danger"><i class="bi bi-arrow-down"></i>{{ item.downvotes }}</span>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-4">
+                        No questions found for this filter.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <h3 class="mb-0">{{ questions | selectattr('net_score', 'gt', 0) | list | length }}</h3>
+                    <small>Positive Score</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-secondary text-white">
+                <div class="card-body text-center">
+                    <h3 class="mb-0">{{ questions | selectattr('net_score', 'eq', 0) | list | length }}</h3>
+                    <small>Neutral</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-danger text-white">
+                <div class="card-body text-center">
+                    <h3 class="mb-0">{{ questions | selectattr('net_score', 'lt', 0) | list | length }}</h3>
+                    <small>Negative Score</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

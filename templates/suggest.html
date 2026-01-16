@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Suggest a Question - CanopyAI{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="bi bi-lightbulb me-2"></i>Suggest a New Question</h4>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">
+                    Think of a question you'd like to ask the AI that isn't already in the survey.
+                    Other participants can vote on your suggestion.
+                </p>
+
+                {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
+
+                <form method="POST" action="{{ url_for('suggest') }}">
+                    <div class="mb-3">
+                        <label for="question_text" class="form-label">Your Question <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="question_text" name="question_text" rows="3"
+                                  placeholder="e.g., Show me members who qualify for a credit limit increase" required></textarea>
+                        <div class="form-text">Write it as you would naturally ask the AI</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Related Category</label>
+                        <select class="form-select" id="category" name="category">
+                            <option value="marketing">Marketing</option>
+                            <option value="loans">Loans</option>
+                            <option value="live_transactions">Live Transactions</option>
+                            <option value="general">General / Other</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="follow_up_example" class="form-label">Follow-up Example (optional)</label>
+                        <input type="text" class="form-control" id="follow_up_example" name="follow_up_example"
+                               placeholder="e.g., with credit scores above 700">
+                        <div class="form-text">A natural follow-up question someone might ask</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="use_case" class="form-label">Use Case (optional)</label>
+                        <input type="text" class="form-control" id="use_case" name="use_case"
+                               placeholder="e.g., Credit card cross-sell">
+                        <div class="form-text">What business problem does this help solve?</div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send me-1"></i>Submit Suggestion
+                        </button>
+                        <a href="{{ url_for('survey') }}" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

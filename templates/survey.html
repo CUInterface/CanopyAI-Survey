@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Survey - CanopyAI{% endblock %}
+
+{% block content %}
+{% macro render_question_card(question) %}
+<div class="card question-card mb-3" data-question-id="{{ question.id }}">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-auto">
+                <div class="vote-buttons d-flex flex-column align-items-center">
+                    <button class="btn btn-vote btn-upvote {% if user_votes.get(question.id) == 'upvote' %}active{% endif %}"
+                            onclick="vote({{ question.id }}, 'upvote')" title="Upvote - I would use this">
+                        <i class="bi bi-arrow-up-circle{% if user_votes.get(question.id) == 'upvote' %}-fill{% endif %}"></i>
+                    </button>
+                    <span class="vote-score fw-bold my-1" id="score-{{ question.id }}">{{ question.net_score }}</span>
+                    <button class="btn btn-vote btn-downvote {% if user_votes.get(question.id) == 'downvote' %}active{% endif %}"
+                            onclick="vote({{ question.id }}, 'downvote')" title="Downvote - Not relevant to me">
+                        <i class="bi bi-arrow-down-circle{% if user_votes.get(question.id) == 'downvote' %}-fill{% endif %}"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col">
+                <h5 class="card-title mb-1">"{{ question.question_text }}"</h5>
+                {% if question.follow_up_example %}
+                <p class="text-muted small mb-2">
+                    <i class="bi bi-chat-dots me-1"></i>Follow-up: "{{ question.follow_up_example }}"
+                </p>
+                {% endif %}
+                <span class="badge bg-light text-dark">{{ question.use_case }}</span>
+                <span class="badge bg-light text-muted">{{ question.question_id }}</span>
+            </div>
+            <div class="col-auto text-end">
+                <small class="text-muted">
+                    <span class="text-success" id="upvotes-{{ question.id }}">
+                        <i class="bi bi-arrow-up"></i>{{ question.upvote_count }}
+                    </span>
+                    <span class="mx-1">/</span>
+                    <span class="text-danger" id="downvotes-{{ question.id }}">
+                        <i class="bi bi-arrow-down"></i>{{ question.downvote_count }}
+                    </span>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 mb-1">Question Priority Survey</h1>
+        <p class="text-muted mb-0">Vote on which questions should be prioritized for the AI</p>
+    </div>
+    <a href="{{ url_for('suggest') }}" class="btn btn-outline-primary">
+        <i class="bi bi-plus-lg me-1"></i>Suggest a Question
+    </a>
+</div>
+
+<!-- Category Tabs -->
+<ul class="nav nav-tabs" id="categoryTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="marketing-tab" data-bs-toggle="tab" data-bs-target="#marketing"
+                type="button" role="tab">
+            <i class="bi bi-megaphone me-1"></i>Marketing
+            <span class="badge bg-secondary ms-1">{{ categories.marketing|length }}</span>
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="loans-tab" data-bs-toggle="tab" data-bs-target="#loans"
+                type="button" role="tab">
+            <i class="bi bi-cash-stack me-1"></i>Loans
+            <span class="badge bg-secondary ms-1">{{ categories.loans|length }}</span>
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="live-tab" data-bs-toggle="tab" data-bs-target="#live"
+                type="button" role="tab">
+            <i class="bi bi-activity me-1"></i>Live Transactions
+            <span class="badge bg-secondary ms-1">{{ categories.live_transactions|length }}</span>
+        </button>
+    </li>
+    {% if categories.user_suggested %}
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="suggested-tab" data-bs-toggle="tab" data-bs-target="#suggested"
+                type="button" role="tab">
+            <i class="bi bi-lightbulb me-1"></i>User Suggestions
+            <span class="badge bg-secondary ms-1">{{ categories.user_suggested|length }}</span>
+        </button>
+    </li>
+    {% endif %}
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content mt-4" id="categoryTabContent">
+    <!-- Marketing -->
+    <div class="tab-pane fade show active" id="marketing" role="tabpanel">
+        <p class="text-muted mb-3">Questions focused on member demographics, engagement, cross-sell opportunities, and campaign targeting.</p>
+        {% for question in categories.marketing %}
+            {{ render_question_card(question) }}
+        {% endfor %}
+    </div>
+
+    <!-- Loans -->
+    <div class="tab-pane fade" id="loans" role="tabpanel">
+        <p class="text-muted mb-3">Questions focused on loan pipeline, production tracking, risk assessment, and loan officer workflows.</p>
+        {% for question in categories.loans %}
+            {{ render_question_card(question) }}
+        {% endfor %}
+    </div>
+
+    <!-- Live Transactions -->
+    <div class="tab-pane fade" id="live" role="tabpanel">
+        <p class="text-muted mb-3">Questions focused on real-time monitoring, daily operations, and transaction alerts.</p>
+        {% for question in categories.live_transactions %}
+            {{ render_question_card(question) }}
+        {% endfor %}
+    </div>
+
+    <!-- User Suggestions -->
+    {% if categories.user_suggested %}
+    <div class="tab-pane fade" id="suggested" role="tabpanel">
+        <p class="text-muted mb-3">Questions suggested by survey participants.</p>
+        {% for question in categories.user_suggested %}
+            {{ render_question_card(question) }}
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function vote(questionId, voteType) {
+    try {
+        const response = await fetch('/vote', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                question_id: questionId,
+                vote_type: voteType
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Vote failed');
+        }
+
+        const data = await response.json();
+
+        // Update display
+        document.getElementById(`score-${questionId}`).textContent = data.net_score;
+        document.getElementById(`upvotes-${questionId}`).innerHTML =
+            `<i class="bi bi-arrow-up"></i>${data.upvotes}`;
+        document.getElementById(`downvotes-${questionId}`).innerHTML =
+            `<i class="bi bi-arrow-down"></i>${data.downvotes}`;
+
+        // Update button states
+        const card = document.querySelector(`[data-question-id="${questionId}"]`);
+        const upBtn = card.querySelector('.btn-upvote');
+        const downBtn = card.querySelector('.btn-downvote');
+        const upIcon = upBtn.querySelector('i');
+        const downIcon = downBtn.querySelector('i');
+
+        // Reset both buttons
+        upBtn.classList.remove('active');
+        downBtn.classList.remove('active');
+        upIcon.className = 'bi bi-arrow-up-circle';
+        downIcon.className = 'bi bi-arrow-down-circle';
+
+        // Set active state based on user's current vote
+        if (data.user_vote === 'upvote') {
+            upBtn.classList.add('active');
+            upIcon.className = 'bi bi-arrow-up-circle-fill';
+        } else if (data.user_vote === 'downvote') {
+            downBtn.classList.add('active');
+            downIcon.className = 'bi bi-arrow-down-circle-fill';
+        }
+
+    } catch (error) {
+        console.error('Error voting:', error);
+        alert('Failed to record vote. Please try again.');
+    }
+}
+</script>
+{% endblock %}

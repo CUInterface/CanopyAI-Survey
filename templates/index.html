@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - CanopyAI Survey{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm mt-5">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <svg class="canopy-logo-large mb-3" width="64" height="64" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="45" fill="#4a6741" fill-opacity="0.15"/>
+                        <path d="M50 20C50 20 30 35 30 55C30 65 38 75 50 75C62 75 70 65 70 55C70 35 50 20 50 20Z" fill="#4a6741"/>
+                        <path d="M50 30C50 30 40 40 40 52C40 58 44 64 50 64C56 64 60 58 60 52C60 40 50 30 50 30Z" fill="white" fill-opacity="0.3"/>
+                    </svg>
+                    <h2 class="mt-2" style="color: #4a6741;">CanopyAI</h2>
+                    <p class="text-muted">Help us prioritize which questions the AI should answer first</p>
+                </div>
+
+                {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
+
+                <form method="POST" action="{{ url_for('login') }}">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Enter your email to get started</label>
+                        <input type="email" class="form-control form-control-lg" id="email" name="email"
+                               placeholder="you@creditunion.com" required>
+                        <div class="form-text">Your email helps us track your votes and prevent duplicates.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        Start Survey <i class="bi bi-arrow-right ms-2"></i>
+                    </button>
+                </form>
+
+                <hr class="my-4">
+
+                <div class="text-muted small">
+                    <h6>How it works:</h6>
+                    <ol class="ps-3">
+                        <li>Review pre-generated questions by category</li>
+                        <li>Upvote questions you'd find useful</li>
+                        <li>Downvote questions that aren't relevant</li>
+                        <li>Suggest your own questions for others to vote on</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

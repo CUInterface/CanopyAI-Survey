@@ -1,0 +1,326 @@
+/* CanopyAI Survey - Custom Styles */
+/* Inspired by Vyrdia/CanopyAI branding */
+
+:root {
+    /* CanopyAI Color Palette */
+    --canopy-green-50: #f0f5f0;
+    --canopy-green-100: #d4e5d1;
+    --canopy-green-200: #a8cba0;
+    --canopy-green-300: #7cb06f;
+    --canopy-green-400: #5a9a4d;
+    --canopy-green-500: #4a6741;
+    --canopy-green-600: #3d5536;
+    --canopy-green-700: #30432b;
+    --canopy-green-800: #233220;
+    --canopy-green-900: #162015;
+
+    /* Warm tones */
+    --canopy-warm-50: #faf9f7;
+    --canopy-warm-100: #f5f3ef;
+    --canopy-warm-200: #e8e4dc;
+    --canopy-warm-300: #d4cec2;
+    --canopy-warm-400: #b8b0a0;
+
+    /* Primary colors */
+    --canopy-primary: #4a6741;
+    --canopy-primary-hover: #3d5536;
+    --canopy-primary-light: #5a9a4d;
+    --canopy-bg: #faf9f7;
+    --canopy-card-bg: #ffffff;
+    --canopy-border: #e8e4dc;
+    --canopy-text: #233220;
+    --canopy-text-muted: #6b7c66;
+}
+
+/* Base styles */
+body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--canopy-bg);
+    color: var(--canopy-text);
+}
+
+/* Navbar */
+.canopy-navbar {
+    background: linear-gradient(135deg, var(--canopy-green-500) 0%, var(--canopy-green-600) 100%);
+    box-shadow: 0 2px 8px rgba(74, 103, 65, 0.15);
+}
+
+.canopy-navbar .navbar-brand {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.canopy-logo {
+    color: white;
+}
+
+.canopy-navbar .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.canopy-navbar .nav-link:hover {
+    color: white;
+}
+
+.canopy-navbar .user-email {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+}
+
+/* Footer */
+.canopy-footer {
+    background-color: var(--canopy-warm-100);
+    border-top: 1px solid var(--canopy-border);
+    color: var(--canopy-text-muted);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--canopy-primary);
+    border-color: var(--canopy-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--canopy-primary-hover);
+    border-color: var(--canopy-primary-hover);
+}
+
+.btn-primary:focus {
+    background-color: var(--canopy-primary);
+    border-color: var(--canopy-primary);
+    box-shadow: 0 0 0 0.25rem rgba(74, 103, 65, 0.25);
+}
+
+.btn-outline-primary {
+    color: var(--canopy-primary);
+    border-color: var(--canopy-primary);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--canopy-primary);
+    border-color: var(--canopy-primary);
+    color: white;
+}
+
+.btn-outline-primary.active,
+.btn-outline-primary:active {
+    background-color: var(--canopy-primary);
+    border-color: var(--canopy-primary);
+}
+
+/* Cards */
+.card {
+    border: 1px solid var(--canopy-border);
+    border-radius: 0.75rem;
+    background-color: var(--canopy-card-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.card-header {
+    background-color: var(--canopy-warm-100);
+    border-bottom: 1px solid var(--canopy-border);
+}
+
+/* Vote Buttons */
+.vote-buttons {
+    min-width: 50px;
+}
+
+.btn-vote {
+    border: none;
+    background: transparent;
+    padding: 0.25rem 0.5rem;
+    font-size: 1.5rem;
+    color: var(--canopy-text-muted);
+    transition: all 0.2s ease;
+}
+
+.btn-vote:hover {
+    transform: scale(1.1);
+}
+
+.btn-upvote:hover,
+.btn-upvote.active {
+    color: var(--canopy-primary);
+}
+
+.btn-downvote:hover,
+.btn-downvote.active {
+    color: #dc3545;
+}
+
+.vote-score {
+    font-size: 1.1rem;
+    min-width: 30px;
+    text-align: center;
+    color: var(--canopy-primary);
+}
+
+/* Question Cards */
+.question-card {
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent;
+}
+
+.question-card:hover {
+    box-shadow: 0 4px 12px rgba(74, 103, 65, 0.1);
+    border-left-color: var(--canopy-primary);
+}
+
+.question-card .card-title {
+    color: var(--canopy-text);
+}
+
+/* Category Tabs */
+.nav-tabs {
+    border-bottom: 2px solid var(--canopy-border);
+}
+
+.nav-tabs .nav-link {
+    color: var(--canopy-text-muted);
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    font-weight: 500;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--canopy-primary);
+    border-color: transparent;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--canopy-primary);
+    font-weight: 600;
+    border-bottom-color: var(--canopy-primary);
+    background: transparent;
+}
+
+/* Badges */
+.badge.bg-secondary {
+    background-color: var(--canopy-green-100) !important;
+    color: var(--canopy-green-700);
+}
+
+.badge.bg-light {
+    background-color: var(--canopy-warm-100) !important;
+    color: var(--canopy-text-muted);
+}
+
+.badge.bg-success {
+    background-color: var(--canopy-primary) !important;
+}
+
+.badge.bg-primary {
+    background-color: var(--canopy-primary) !important;
+}
+
+.badge.bg-info {
+    background-color: var(--canopy-green-300) !important;
+    color: var(--canopy-green-800);
+}
+
+/* Results Table */
+.table {
+    --bs-table-bg: var(--canopy-card-bg);
+}
+
+.table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: var(--canopy-text-muted);
+    background-color: var(--canopy-warm-100);
+}
+
+.table-hover tbody tr:hover {
+    background-color: var(--canopy-green-50);
+}
+
+/* Form controls */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--canopy-primary);
+    box-shadow: 0 0 0 0.25rem rgba(74, 103, 65, 0.15);
+}
+
+/* Alerts */
+.alert-danger {
+    background-color: #fef2f2;
+    border-color: #fecaca;
+    color: #991b1b;
+}
+
+/* Links */
+a {
+    color: var(--canopy-primary);
+}
+
+a:hover {
+    color: var(--canopy-primary-hover);
+}
+
+/* Text utilities */
+.text-success {
+    color: var(--canopy-primary) !important;
+}
+
+.text-muted {
+    color: var(--canopy-text-muted) !important;
+}
+
+/* Stat cards on results page */
+.card.bg-success {
+    background-color: var(--canopy-primary) !important;
+}
+
+.card.bg-secondary {
+    background-color: var(--canopy-green-300) !important;
+}
+
+/* Icons */
+.bi {
+    vertical-align: -0.125em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .question-card .row {
+        flex-direction: column;
+    }
+
+    .vote-buttons {
+        flex-direction: row !important;
+        margin-bottom: 1rem;
+    }
+
+    .vote-score {
+        margin: 0 0.5rem;
+    }
+
+    .canopy-navbar .navbar-brand {
+        font-size: 1.1rem;
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--canopy-warm-100);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--canopy-green-200);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--canopy-green-300);
+}
