@@ -11,7 +11,21 @@
       "Bash(gh search code:*)",
       "Bash(gh api:*)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nInitial commit: CanopyAI Survey Application\n\nFlask-based survey app for Credit Union stakeholders to rank\npre-generated questions about AI interactions.\n\nFeatures:\n- 30 pre-seeded questions \\(Marketing, Loans, Live Transactions\\)\n- Email-based authentication \\(prevents duplicate votes\\)\n- Upvote/downvote with AJAX\n- User question suggestions\n- Results dashboard with CSV export\n- CanopyAI branding\n\nRelated: CUInterface/Vyrdia_Financial_AI#84\nEOF\n\\)\")",
+      "Bash(gh repo create:*)",
+      "Bash(az group show:*)",
+      "Bash(az resource list:*)",
+      "Bash(az acr list:*)",
+      "Bash(az containerapp env list:*)",
+      "Bash(az containerapp env create:*)",
+      "Bash(az containerapp list:*)",
+      "Bash(az containerapp create:*)",
+      "Bash(az containerapp show:*)",
+      "Bash(az ad sp list:*)",
+      "Bash(az acr credential:*)",
+      "Bash(gh secret set:*)",
+      "Bash(gh secret:*)"
     ]
   }
 }

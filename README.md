@@ -46,9 +46,34 @@ python app.py
 
 Visit http://localhost:5000
 
-## Deployment
+## Deployment (Azure Container Apps)
 
-For Azure App Service deployment, use `startup.sh` as the startup command.
+This app deploys via GitHub Actions to Azure Container Apps.
+
+### Prerequisites
+
+1. Azure Container Registry (ACR)
+2. Azure Container Apps environment
+3. GitHub repository secrets:
+
+| Secret | Description |
+|--------|-------------|
+| `ACR_NAME` | Azure Container Registry name |
+| `ACR_USERNAME` | ACR admin username |
+| `ACR_PASSWORD` | ACR admin password |
+| `AZURE_RESOURCE_GROUP` | Resource group name |
+| `AZURE_CREDENTIALS` | Azure service principal JSON |
+
+### Deploy
+
+Push to `master` branch triggers automatic build and deploy.
+
+### Manual Docker Build
+
+```bash
+docker build -t canopyai-survey .
+docker run -p 8000:8000 canopyai-survey
+```
 
 ## Related
 
