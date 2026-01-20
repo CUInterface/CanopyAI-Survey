@@ -24,3 +24,4 @@ Thumbs.db
 
 # Azure
 .azure/
+container-update.yaml

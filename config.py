@@ -16,12 +16,11 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
-    # Use DATABASE_PATH env var for Azure Files mount, fallback to instance folder
-    _db_path = os.environ.get('DATABASE_PATH') or str(basedir / "instance" / "survey.db")
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or f'sqlite:///{_db_path}?timeout=30'
+    # Use DATABASE_URL env var for PostgreSQL
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     SQLALCHEMY_ENGINE_OPTIONS = {
-        'connect_args': {'check_same_thread': False, 'timeout': 30},
         'pool_pre_ping': True,
+        'pool_recycle': 300,
     }
 
 

@@ -32,7 +32,14 @@
       "Bash(az storage account:*)",
       "Bash(az storage share create:*)",
       "Bash(az containerapp update:*)",
-      "Bash(az containerapp logs:*)"
+      "Bash(az containerapp logs:*)",
+      "Bash(az postgres flexible-server show:*)",
+      "Bash(az postgres flexible-server db list:*)",
+      "Bash(az postgres flexible-server db create:*)",
+      "Bash(az keyvault secret list:*)",
+      "Bash(az login:*)",
+      "Bash(az keyvault secret show:*)",
+      "Bash(az containerapp env storage remove:*)"
     ]
   }
 }
