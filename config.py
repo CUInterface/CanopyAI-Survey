@@ -16,9 +16,9 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
-    # Azure App Service writable path
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        f'sqlite:///{basedir / "instance" / "survey.db"}'
+    # Use DATABASE_PATH env var for Azure Files mount, fallback to instance folder
+    _db_path = os.environ.get('DATABASE_PATH') or str(basedir / "instance" / "survey.db")
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or f'sqlite:///{_db_path}'
 
 
 config = {

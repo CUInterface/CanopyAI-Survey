@@ -9,14 +9,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Create instance directory for SQLite
+# Create instance directory for SQLite (fallback if no mount)
 RUN mkdir -p /app/instance
 
-# Seed the database
-RUN python seed_questions.py
+# Make entrypoint executable
+RUN chmod +x entrypoint.sh
 
 # Expose port
 EXPOSE 8000
 
-# Run with gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "app:create_app('production')"]
+# Run entrypoint (seeds DB if needed, then starts gunicorn)
+CMD ["./entrypoint.sh"]
