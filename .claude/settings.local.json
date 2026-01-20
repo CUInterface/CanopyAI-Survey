@@ -39,7 +39,8 @@
       "Bash(az keyvault secret list:*)",
       "Bash(az login:*)",
       "Bash(az keyvault secret show:*)",
-      "Bash(az containerapp env storage remove:*)"
+      "Bash(az containerapp env storage remove:*)",
+      "Bash(PGPASSWORD=\"Tarheels2005!\" psql:*)"
     ]
   }
 }

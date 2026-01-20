@@ -201,7 +201,12 @@ LIVE_TRANSACTIONS_QUESTIONS = [
 
 def seed_questions():
     """Seed all 30 pre-generated questions into the database."""
-    app = create_app('development')
+    import os
+    env = os.environ.get('FLASK_ENV', 'development')
+    # Use production config if DATABASE_URL is set
+    if os.environ.get('DATABASE_URL'):
+        env = 'production'
+    app = create_app(env)
 
     with app.app_context():
         # Check if questions already exist
