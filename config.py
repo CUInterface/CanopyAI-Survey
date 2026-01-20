@@ -18,7 +18,11 @@ class ProductionConfig(Config):
     DEBUG = False
     # Use DATABASE_PATH env var for Azure Files mount, fallback to instance folder
     _db_path = os.environ.get('DATABASE_PATH') or str(basedir / "instance" / "survey.db")
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or f'sqlite:///{_db_path}'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or f'sqlite:///{_db_path}?timeout=30'
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'connect_args': {'check_same_thread': False, 'timeout': 30},
+        'pool_pre_ping': True,
+    }
 
 
 config = {

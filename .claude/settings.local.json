@@ -31,7 +31,8 @@
       "Bash(gh run:*)",
       "Bash(az storage account:*)",
       "Bash(az storage share create:*)",
-      "Bash(az containerapp update:*)"
+      "Bash(az containerapp update:*)",
+      "Bash(az containerapp logs:*)"
     ]
   }
 }
