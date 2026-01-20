@@ -22,9 +22,9 @@ Users can also suggest their own questions for the community to vote on.
 ## Tech Stack
 
 - **Backend**: Flask, Flask-SQLAlchemy
-- **Database**: SQLite
+- **Database**: PostgreSQL (production), SQLite (local development)
 - **Frontend**: Jinja2 templates, Bootstrap 5
-- **Deployment**: Azure App Service ready
+- **Deployment**: Azure Container Apps with GitHub Actions CI/CD
 
 ## Local Development
 
@@ -63,6 +63,7 @@ This app deploys via GitHub Actions to Azure Container Apps.
 | `ACR_PASSWORD` | ACR admin password |
 | `AZURE_RESOURCE_GROUP` | Resource group name |
 | `AZURE_CREDENTIALS` | Azure service principal JSON |
+| `DATABASE_URL` | PostgreSQL connection string |
 
 ### Deploy
 
